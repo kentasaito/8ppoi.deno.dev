@@ -26,7 +26,7 @@ app.get("/member/:memberId", async (c) => {
     memberId: memberId,
     createdAt: new Date(member.createdAt).toLocaleString(),
     updatedAt: new Date(member.updatedAt).toLocaleString(),
-    hookId: member.hookId,
+    buildId: member.buildId,
     memberName: member.memberName,
     login: member.login,
     profile: member.profile,
@@ -44,38 +44,7 @@ app.post("/api/publish-profile", async (c) => {
   const key = ["members", body.repository.owner.id.toString()];
   const value = Object.assign(member, {
     updatedAt: body.build.updated_at,
-    hookId: body.id,
-    memberName: json.memberName,
-    login: body.repository.owner.login,
-    profile	: json.profile,
-  });
-  await kvAdmin.set(key, value);
-  return c.json(await kvAdmin.list());
-});
-
-app.get("/test", async (c) => {
-  const body = {
-    "hook": {
-      "id": 539075276,
-      "updated_at": "2025-04-04T03:58:51Z",
-      "created_at": "2025-04-04T03:58:51Z",
-    },
-    "repository": {
-      "owner": {
-        "login": "kentasaito",
-        "id": 1627937,
-      },
-    },
-  };
-  const res = await fetch(`https://${body.repository.owner.login}.github.io/8ppoi-${body.repository.owner.id}/member.json`);
-  const json =  await res.json();
-  const member = await kvAdmin.get(["members", body.repository.owner.id.toString()]) ?? {
-    createdAt: body.hook.created_at,
-  };
-  const key = ["members", body.repository.owner.id.toString()];
-  const value = Object.assign(member, {
-    updatedAt: body.hook.updated_at,
-    hookId: body.hook.id,
+    buildId: body.id,
     memberName: json.memberName,
     login: body.repository.owner.login,
     profile	: json.profile,

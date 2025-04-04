@@ -6,5 +6,5 @@ export default (props) => `
   <p>プロフィール: ${props.profile}</p>
   <p>作成日時: ${props.createdAt}</p>
   <p>更新日時: ${props.updatedAt}</p>
-  <p>Webhook ID: ${props.hookId}</p>
+  <p>ビルドID: ${props.buildId}</p>
 `;
