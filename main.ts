@@ -40,7 +40,7 @@ app.delete("/member/:memberId", async (c) => {
   return await kvAdmin.delete(["members", memberId]);
 });
 
-app.post("/api/publish-profile", async (c) => {
+app.post("/member", async (c) => {
   const body = await c.req.json();
   const res = await fetch(`https://${body.repository.owner.login}.github.io/8ppoi-${body.repository.owner.id}/member.json`);
   const json =  await res.json();
