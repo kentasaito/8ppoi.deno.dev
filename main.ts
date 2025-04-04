@@ -1,6 +1,7 @@
 import { Context, Hono } from "hono/hono";
 import { serveStatic } from "hono/hono/deno";
 import { memberRoutes } from "./routes/memberRoutes.ts";
+import { cartridgeRoutes } from "./routes/cartridgeRoutes.ts";
 
 const app = new Hono();
 
@@ -21,12 +22,9 @@ app.get(
   "/sdk/uninstall",
   (c: Context) => c.html(layout("8ppoi SDK/アンインストール")),
 );
-app.get(
-  "/sdk/uninstall",
-  (c: Context) => c.html(layout("8ppoi SDK/アンインストール")),
-);
 
 app.route("/member", memberRoutes);
+app.route("/cartridge", cartridgeRoutes);
 
 app.get("/*", serveStatic({ root: "./static/" }));
 

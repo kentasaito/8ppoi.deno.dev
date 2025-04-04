@@ -8,7 +8,7 @@ const app = new Hono();
 
 import { layout } from "../pages/layout.ts";
 
-app.get("/:cartridgeId", async (c: Context) => {
+app.get("/:memberId/:cartridgeId", async (c: Context) => {
   const cartridgeId = c.req.param("cartridgeId");
   const cartridge = await kvAdmin.get(["cartridges", cartridgeId]) as Cartridge;
   if (!cartridge) {
@@ -21,9 +21,10 @@ app.get("/:cartridgeId", async (c: Context) => {
   return c.html(layout("カートリッジ", "ts", props));
 });
 
-app.delete("/:cartridgeId", async (c: Context) => {
+app.delete("/:memberId/:cartridgeId", async (c: Context) => {
+  const memberId = c.req.param("memberId");
   const cartridgeId = c.req.param("cartridgeId");
-  return await kvAdmin.delete(["cartridges", cartridgeId]);
+  return await kvAdmin.delete(["cartridges", memberId, cartridgeId]);
 });
 
 app.post("/", async (c: Context) => {
@@ -42,7 +43,7 @@ app.post("/", async (c: Context) => {
     buildId: body.id,
     cartridgeName: json.cartridgeName,
     login: body.repository.owner.login,
-    profile: json.profile,
+    instruction: json.instruction,
   });
   await kvAdmin.set(key, value);
   return c.json(await kvAdmin.list());
