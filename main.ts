@@ -11,6 +11,14 @@ app.get("/sdk/prerequisites", (c) => c.html(layout("8ppoi SDK/事前準備")));
 app.get("/sdk/install", (c) => c.html(layout("8ppoi SDK/インストール")));
 app.get("/sdk/tasks", (c) => c.html(layout("8ppoi SDK/タスク")));
 app.get("/sdk/uninstall", (c) => c.html(layout("8ppoi SDK/アンインストール")));
+app.get("/sdk/uninstall", (c) => c.html(layout("8ppoi SDK/アンインストール")));
+
+app.post("/api/publish-profile", async (c) => {
+  const body = await c.req.json();
+  console.log("Received webhook:", body);
+  return c.json({ message: "Received!" });
+});
+
 app.get("/*", serveStatic({ root: "./static/" }));
 
 Deno.serve(app.fetch);
