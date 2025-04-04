@@ -1,5 +1,8 @@
-import { Hono } from "hono";
-import { serveStatic } from "hono/deno";
+import { Hono } from "hono/hono";
+import { serveStatic } from "hono/hono/deno";
+import { KvAdmin } from "kenta/kvadmin";
+
+const kvAdmin = await KvAdmin.getInstance();
 
 const app = new Hono();
 
@@ -15,8 +18,38 @@ app.get("/sdk/uninstall", (c) => c.html(layout("8ppoi SDK/アンインストー�
 
 app.post("/api/publish-profile", async (c) => {
   const body = await c.req.json();
-  console.log("Received webhook:", body);
-  return c.json({ message: "Received!" });
+  const res = await fetch(`https://${body.repository.owner.login}.github.io/8ppoi-${body.repository.owner.id}/member.json`);
+  const member =  await res.json();
+  const key = ["members", body.repository.owner.id.toString()];
+  const value = {
+    memberName: member.memberName,
+    login: body.repository.owner.login,
+    profile	: member.profile,
+  };
+  await kvAdmin.set(key, value);
+  return c.json(await kvAdmin.list());
+});
+
+app.get("/test", async (c) => {
+  const body = {
+    "repository": {
+      "owner": {
+        "login": "kentasaito",
+        "id": 1627937,
+      },
+    },
+  };
+  const res = await fetch(`https://${body.repository.owner.login}.github.io/8ppoi-${body.repository.owner.id}/member.json`);
+  const member =  await res.json();
+  const key = ["members", body.repository.owner.id.toString()];
+  const value = {
+    memberId: body.repository.owner.id.toString(),
+    memberName: member.memberName,
+    login: body.repository.owner.login,
+    profile	: member.profile,
+  };
+  await kvAdmin.set(key, value);
+  return c.json(await kvAdmin.list());
 });
 
 app.get("/*", serveStatic({ root: "./static/" }));
