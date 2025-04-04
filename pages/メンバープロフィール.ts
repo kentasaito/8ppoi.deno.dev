@@ -7,7 +7,7 @@ export default (props) => `
       <li><a href="https://${props.login}.github.io/8ppoi-${props.memberId}/">GitHub Pages</a></li>
       <li><a href="https://8ppoi.deno.dev/member/${props.memberId}">8ppoi member profile</a></li>
     </ul>
-    作成日時: ${props.createdAt}<br>
+    登録日時: ${props.createdAt}<br>
     更新日時: ${props.updatedAt}<br>
     ビルドID: ${props.buildId}<br>
   </div>
