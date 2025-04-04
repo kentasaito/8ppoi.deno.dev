@@ -1,0 +1,12 @@
+8ppoi SDK
+  8ppoi SDKは8ppoiカートリッジの開発環境です。
+  Linux、Mac、Windowsで動作します。
+  Webサーバを内包しているのでローカルでカートリッジを動作させられます。
+  タスクとしてカートリッジの公開機能などが提供されます。
+
+  目次
+    <a href="./prerequisites">事前準備</a>
+    <a href="./install">インストール</a>
+    <a href="./tasks">タスク</a>
+    <a href="./uninstall">アンインストール</a>
+  

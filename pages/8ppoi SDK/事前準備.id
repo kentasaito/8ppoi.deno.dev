@@ -1,0 +1,18 @@
+事前準備
+  SDKのインストールに先立って、依存するソフトウェアのインストールやGitHubの設定などが必要です。
+
+  ソフトウェアのインストール
+    OSによってインストールの方法が異なります。
+    各リンクを参考にしてください。
+
+    Deno
+      https://deno.com/
+
+    Git
+      https://git-scm.com/downloads
+
+    GitHub CLI（gh）
+      https://cli.github.com/
+
+  GitHubの設定
+    GitHub CLIからのログインと公開鍵の登録

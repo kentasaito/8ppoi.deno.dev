@@ -1,0 +1,44 @@
+タスク
+  Webサーバの起動
+    <pre>
+      deno task dev
+    </pre>
+    Webサーバが起動します。
+    http://localhost:8000 をWebブラウザで開くと8ppoiコンソールを利用できます。
+
+  アップデート
+    <pre>
+      deno task update
+    </pre>
+    SDKとコンソールがアップデートされます。
+
+  バージョン確認
+    <pre>
+      deno task version
+    </pre>
+    SDKとコンソールのバージョンが表示されます。
+
+  カートリッジの開発
+    <pre>
+      deno task cartridge create {カートリッジID}
+    </pre>
+    新しいカートリッジが作成されます。
+    ./cartridge/{メンバーID}/{カートリッジID}内のファイルを編集してカートリッジを開発してください。
+
+  プロフィールの公開
+    <pre>
+      deno task member publish
+    </pre>
+    プロフィールが公開されます。
+
+  カートリッジの公開
+    <pre>
+      deno task cartridge publish {カートリッジID}
+    </pre>
+    カートリッジが公開されます。
+
+  カートリッジの公開終了
+    <pre>
+      deno task cartridge delete {カートリッジID}
+    </pre>
+    プロフィールの公開が終了されます。
