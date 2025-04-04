@@ -23,5 +23,5 @@
 
   以下のコマンドを実行するとカレントディレクトリに8ppoi-sdkとしてSDKがインストールされます。
   <pre>
-    deno run --allow-run --reload　https://8ppoi.deno.dev/install.sh
+    deno run --allow-run --reload https://8ppoi.deno.dev/install.ts
   </pre>

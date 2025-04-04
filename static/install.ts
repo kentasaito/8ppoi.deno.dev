@@ -32,7 +32,7 @@ const repositories = {
 };
 
 for (const [repositoryId, repository] of Object.entries(repositories)) {
-  const repositoryPath = `../repos/${repositoryId}`; // .gitをつける
+  const repositoryPath = `git@github.com:kentasaito/${repositoryId}.git`;
   console.log(`Installing ${repository.name} (${repositoryPath})`);
 
   const code = await streamExec("git", { args: ["clone", repositoryPath, repository.directory] });
