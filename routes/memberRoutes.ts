@@ -16,12 +16,7 @@ app.get("/:memberId", async (c: Context) => {
   }
   const props = {
     memberId: memberId,
-    createdAt: new Date(member.createdAt).toLocaleString(),
-    updatedAt: new Date(member.updatedAt).toLocaleString(),
-    buildId: member.buildId,
-    memberName: member.memberName,
-    login: member.login,
-    profile: member.profile,
+    member: member,
   };
   return c.html(layout("メンバープロフィール", "ts", props));
 });
@@ -50,4 +45,4 @@ app.post("/", async (c: Context) => {
   return c.json(await kvAdmin.list());
 });
 
-export { app as memberApp };
+export { app as memberRoutes };
