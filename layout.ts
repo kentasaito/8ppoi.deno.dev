@@ -3,7 +3,7 @@ import { Indentdown } from "kenta/indentdown";
 const header = () => {
   return `
     <header>
-      <a href="">8ppoi</a>
+      <a href="/">8ppoi</a>
       <nav>
         <ul>
           <li><a href="/sdk/">SDK</a></li>
