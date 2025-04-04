@@ -1,6 +1,7 @@
 import { Hono } from "hono/hono";
 import { serveStatic } from "hono/hono/deno";
 import { KvAdmin } from "kenta/kvadmin";
+import { Member } from "./interfaces/Member.ts";
 
 const kvAdmin = await KvAdmin.getInstance();
 
@@ -18,7 +19,7 @@ app.get("/sdk/uninstall", (c) => c.html(layout("8ppoi SDK/アンインストー�
 
 app.get("/member/:memberId", async (c) => {
   const memberId = c.req.param("memberId");
-  const member = await kvAdmin.get(["members", memberId]);
+  const member = await kvAdmin.get(["members", memberId]) as Member;
   if (!member) {
     return c.html(layout("メンバーが見つかりません", "raw"));
   }
@@ -32,6 +33,11 @@ app.get("/member/:memberId", async (c) => {
     profile: member.profile,
   };
   return c.html(layout("メンバープロフィール", "ts", props));
+});
+
+app.delete("/member/:memberId", async (c) => {
+  const memberId = c.req.param("memberId");
+  return await kvAdmin.delete(["members", memberId]);
 });
 
 app.post("/api/publish-profile", async (c) => {
