@@ -13,8 +13,10 @@ const header = () => {
   `;
 };
 
-export const layout = (pageName: string, type: string = "id") => {
-  const contents = type === "raw" ? pageName : Indentdown.getHtml(Deno.readTextFileSync(`./pages/${pageName}.id`));
+export const layout = async (pageName: string, type: string = "id", props = {}) => {
+  const contents = type === "raw" ? pageName : type === "id" ? Indentdown.getHtml(Deno.readTextFileSync(`./pages/${pageName}.id`)) : 
+await import(`./pages/${pageName}.ts`).then((m) => m.default(props));
+;
   return `
     <!DOCTYPE html>
     <html lang="ja">

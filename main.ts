@@ -22,21 +22,24 @@ app.get("/member/:memberId", async (c) => {
   if (!member) {
     return c.html(layout("メンバーが見つかりません"));
   }
-  const memberName = member.memberName;
-  const profile = member.profile;
-  const createdAt = new Date(member.createdAt).toLocaleString();
-  const updatedAt = new Date(member.updatedAt).toLocaleString();
-  const hookId = member.hookId;
-  const login = member.login;
+  const props = {
+    memberId: memberId,
+    createdAt: new Date(member.createdAt).toLocaleString(),
+    updatedAt: new Date(member.updatedAt).toLocaleString(),
+    hookId: member.hookId,
+    memberName: member.memberName,
+    login: member.login,
+    profile: member.profile,
+  };
   return c.html(layout(`
-    <h1>${memberName}のプロフィール</h1>
-    <p>メンバーID: ${memberId}</p>
-    <p>メンバー名: ${memberName}</p>
-    <p>GitHub ID: ${login}</p>
-    <p>プロフィール: ${profile}</p>
-    <p>作成日時: ${createdAt}</p>
-    <p>更新日時: ${updatedAt}</p>
-    <p>Webhook ID: ${hookId}</p>
+    <h1>${props.memberName}のプロフィール</h1>
+    <p>メンバーID: ${props.memberId}</p>
+    <p>メンバー名: ${props.memberName}</p>
+    <p>GitHub ID: ${props.login}</p>
+    <p>プロフィール: ${props.profile}</p>
+    <p>作成日時: ${props.createdAt}</p>
+    <p>更新日時: ${props.updatedAt}</p>
+    <p>Webhook ID: ${props.hookId}</p>
   `, "raw"));
 });
 
