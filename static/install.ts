@@ -1,9 +1,11 @@
 import { streamExec } from "jsr:@kenta/stream-exec@0.0.3";
 
-if (await streamExec(
-  "gh",
-  { args: ["auth", "status"] },
-) !== 0) {
+if (
+  await streamExec(
+    "gh",
+    { args: ["auth", "status"] },
+  ) !== 0
+) {
   Deno.exit(1);
 }
 console.log();
@@ -35,7 +37,9 @@ for (const [repositoryId, repository] of Object.entries(repositories)) {
   const repositoryPath = `git@github.com:kentasaito/${repositoryId}.git`;
   console.log(`Installing ${repository.name} (${repositoryPath})`);
 
-  const code = await streamExec("git", { args: ["clone", repositoryPath, repository.directory] });
+  const code = await streamExec("git", {
+    args: ["clone", repositoryPath, repository.directory],
+  });
   console.log();
 
   if (code !== 0) {
@@ -44,43 +48,102 @@ for (const [repositoryId, repository] of Object.entries(repositories)) {
   }
 }
 
-if (await streamExec("gh", { args: ["repo", "view", `8ppoi-${member.id}`] }) !== 0) {
-  console.log(`Installing member profile (git@github.com:kentasaito/8ppoi-member.git)`);
-  if (await streamExec("git", { args: ["clone", "git@github.com:kentasaito/8ppoi-member.git", `./8ppoi-sdk/cartridges/${member.id}`] }) !== 0) {
+if (
+  await streamExec("gh", { args: ["repo", "view", `8ppoi-${member.id}`] }) !== 0
+) {
+  console.log(
+    `Installing member profile (git@github.com:kentasaito/8ppoi-member.git)`,
+  );
+  if (
+    await streamExec("git", {
+      args: [
+        "clone",
+        "git@github.com:kentasaito/8ppoi-member.git",
+        `./8ppoi-sdk/cartridges/${member.id}`,
+      ],
+    }) !== 0
+  ) {
     Deno.exit(1);
   }
   console.log();
 
-  console.log(`Publishing member profile (git@github.com:${member.login}/8ppoi-${member.id}.git)`);
+  console.log(
+    `Publishing member profile (git@github.com:${member.login}/8ppoi-${member.id}.git)`,
+  );
   Deno.chdir(`./8ppoi-sdk/cartridges/${member.id}`);
-  Deno.writeTextFileSync("./member.json", JSON.stringify({
-    memberId: member.id.toString(),
-    memberName: member.name,
-    login: member.login,
-    profile: "(Please write your profile here.)",
-  }, null, 2));
+  Deno.writeTextFileSync(
+    "./member.json",
+    JSON.stringify(
+      {
+        memberId: member.id.toString(),
+        memberName: member.name,
+        login: member.login,
+        profile: "(Please write your profile here.)",
+      },
+      null,
+      2,
+    ),
+  );
   if (await streamExec("git", { args: ["add", "-A"] }) !== 0) {
     Deno.exit(1);
   }
-  if (await streamExec("git", { args: ["commit", "-m", "Add member.json"] }) !== 0) {
+  if (
+    await streamExec("git", { args: ["commit", "-m", "Add member.json"] }) !== 0
+  ) {
     Deno.exit(1);
   }
-  if (await streamExec("gh", { args: ["repo", "create", `8ppoi-${member.id}`, "--public"] }) !== 0) {
+  if (
+    await streamExec("gh", {
+      args: ["repo", "create", `8ppoi-${member.id}`, "--public"],
+    }) !== 0
+  ) {
     Deno.exit(1);
   }
-  if (await streamExec("git", { args: ["remote", "set-url", "origin", `https://github.com/${member.login}/8ppoi-${member.id}.git`] }) !== 0) {
+  if (
+    await streamExec("git", {
+      args: [
+        "remote",
+        "set-url",
+        "origin",
+        `https://github.com/${member.login}/8ppoi-${member.id}.git`,
+      ],
+    }) !== 0
+  ) {
     Deno.exit(1);
   }
-  if (await streamExec("git", { args: ["push", "-u", "origin", "main"] }) !== 0) {
+  if (
+    await streamExec("git", { args: ["push", "-u", "origin", "main"] }) !== 0
+  ) {
     Deno.exit(1);
   }
-  if (await streamExec("gh", { args: ["api", "--method", "POST", `/repos/${member.login}/8ppoi-${member.id}/pages`, "--input", "-"] }, '{"source":{"branch":"main","path":"/"}}') !== 0) {
+  if (
+    await streamExec("gh", {
+      args: [
+        "api",
+        "--method",
+        "POST",
+        `/repos/${member.login}/8ppoi-${member.id}/pages`,
+        "--input",
+        "-",
+      ],
+    }, '{"source":{"branch":"main","path":"/"}}') !== 0
+  ) {
     Deno.exit(1);
   }
   console.log();
 } else {
-  console.log(`Installing member profile (git@github.com:${member.login}/8ppoi-${member.id}.git)`);
-  if (await streamExec("git", { args: ["clone", `git@github.com:${member.login}/8ppoi-${member.id}.git`, `./8ppoi-sdk/cartridges/${member.id}`] }) !== 0) {
+  console.log(
+    `Installing member profile (git@github.com:${member.login}/8ppoi-${member.id}.git)`,
+  );
+  if (
+    await streamExec("git", {
+      args: [
+        "clone",
+        `git@github.com:${member.login}/8ppoi-${member.id}.git`,
+        `./8ppoi-sdk/cartridges/${member.id}`,
+      ],
+    }) !== 0
+  ) {
     Deno.exit(1);
   }
   console.log();

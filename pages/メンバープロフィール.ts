@@ -1,6 +1,6 @@
 import { Member } from "../interfaces/Member.ts";
 
-export default (props: {memberId: string, member:Member}) => `
+export default (props: { memberId: string; member: Member }) => `
   <img width="192" height="192" style="border: 1px solid hsl(0, 0%, 0%); border-radius: 50%;" src="https://avatars.githubusercontent.com/${props.member.login}?s=192">
   <h1>${props.member.memberName}</h1>
   <div>

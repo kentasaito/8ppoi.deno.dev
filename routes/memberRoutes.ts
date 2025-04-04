@@ -28,18 +28,21 @@ app.delete("/:memberId", async (c: Context) => {
 
 app.post("/", async (c: Context) => {
   const body = await c.req.json();
-  const res = await fetch(`https://${body.repository.owner.login}.github.io/8ppoi-${body.repository.owner.id}/member.json`);
-  const json =  await res.json();
-  const member = await kvAdmin.get(["members", body.repository.owner.id.toString()]) ?? {
-    createdAt: body.build.created_at,
-  };
+  const res = await fetch(
+    `https://${body.repository.owner.login}.github.io/8ppoi-${body.repository.owner.id}/member.json`,
+  );
+  const json = await res.json();
+  const member =
+    await kvAdmin.get(["members", body.repository.owner.id.toString()]) ?? {
+      createdAt: body.build.created_at,
+    };
   const key = ["members", body.repository.owner.id.toString()];
   const value = Object.assign(member, {
     updatedAt: body.build.updated_at,
     buildId: body.id,
     memberName: json.memberName,
     login: body.repository.owner.login,
-    profile	: json.profile,
+    profile: json.profile,
   });
   await kvAdmin.set(key, value);
   return c.json(await kvAdmin.list());
