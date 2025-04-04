@@ -20,7 +20,7 @@ app.get("/member/:memberId", async (c) => {
   const memberId = c.req.param("memberId");
   const member = await kvAdmin.get(["members", memberId]);
   if (!member) {
-    return c.html(layout("メンバーが見つかりません"));
+    return c.html(layout("メンバーが見つかりません", "raw"));
   }
   const props = {
     memberId: memberId,
@@ -31,16 +31,7 @@ app.get("/member/:memberId", async (c) => {
     login: member.login,
     profile: member.profile,
   };
-  return c.html(layout(`
-    <h1>${props.memberName}のプロフィール</h1>
-    <p>メンバーID: ${props.memberId}</p>
-    <p>メンバー名: ${props.memberName}</p>
-    <p>GitHub ID: ${props.login}</p>
-    <p>プロフィール: ${props.profile}</p>
-    <p>作成日時: ${props.createdAt}</p>
-    <p>更新日時: ${props.updatedAt}</p>
-    <p>Webhook ID: ${props.hookId}</p>
-  `, "raw"));
+  return c.html(layout("メンバープロフィール", "ts", props));
 });
 
 app.post("/api/publish-profile", async (c) => {
