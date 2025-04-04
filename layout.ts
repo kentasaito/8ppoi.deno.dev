@@ -13,7 +13,8 @@ const header = () => {
   `;
 };
 
-export const layout = (pageName: string) => {
+export const layout = (pageName: string, type: string = "id") => {
+  const contents = type === "raw" ? pageName : Indentdown.getHtml(Deno.readTextFileSync(`./pages/${pageName}.id`));
   return `
     <!DOCTYPE html>
     <html lang="ja">
@@ -25,7 +26,7 @@ export const layout = (pageName: string) => {
       </head>
       <body>
         ${header()}
-        ${Indentdown.getHtml(Deno.readTextFileSync(`./pages/${pageName}.id`))}
+        ${contents}
       </body>
     </html>
   `;
